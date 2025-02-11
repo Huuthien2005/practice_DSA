@@ -1,7 +1,7 @@
 #include<iostream>
 using namespace std;
 
-
+#define M 20
 
 class SLLnode {
 public:
@@ -30,7 +30,7 @@ public:
 	bool isEmpty() {
 		return head == NULL;
 	}
-	void intsert(int value) {
+	void insert(int value) {
 		if (head != NULL) {
 			head = new SLLnode(value);
 		}
@@ -162,6 +162,199 @@ public:
 		}
 		else {
 			return head->value;
+		}
+	}
+};
+class Adjmatrix {
+	int** matrix;
+	linklist* list;
+	int m, n;
+	bool* visited;
+public:
+	Adjmatrix(int m, int n) {
+		this->m = m;
+		this->n = n;
+		matrix = new int*[m];
+		visited = new bool[m];
+		for (int i = 0; i < m; i++) {
+			matrix[i] = new int[n];
+			for (int j = 0; j < n; j++) {
+				matrix[i][j] = 0;
+			}
+			visited[i] = false;
+		}
+	}
+	void input() {
+		for (int i = 0; i < m; i++) {
+			for (int j = 0; j < n; j++) {
+				cin >> matrix[i][j];
+			}
+		}
+	}
+	void display() {
+		for (int i = 0; i < m; i++) {
+			for (int j = 0; j < n; j++) {
+				cout<<matrix[i][j]<<"\t";
+			}
+			cout << endl;
+		}
+	}
+	void AdjList_Adjmatrix(SLLnode* head[]) {
+		for (int i = 0; i < m; i++) {
+			SLLnode* run = head[i];
+			while (run != NULL) {
+				matrix[i][run->value] =matrix[run->value][i] = 1;
+			}
+		}
+	}
+	void DFS_matrix(int value) {
+		stack s;
+		s.push(value);
+		visited[value] = true;
+		cout << value << "\t";
+		int v = value;
+		int i = -1;
+		while (!s.isEmpty()) {
+			if (v > n) {
+				v = s.pop();
+			}
+			else {
+				for (i = 0; i < n; i++) {
+					if (matrix[v][i] == 1 && !visited[i]) {
+						s.push(i);
+						cout << i << "\t";
+						visited[i] = true;
+						v = i;
+						break;
+					}
+				}
+			}
+		}
+	}
+	void BFS_matrix(int value) {
+		queue q;
+		q.push(value);
+		visited[value] = true;
+		cout << value << "\t";
+		int v = value;
+		int i = -1;
+		while (!q.isEmpty()) {
+			v = q.pop();
+			cout << v << "\t";
+			for (int i = 0; i < n; i++) {
+				if (matrix[v][i] == 1 && !visited[i]) {
+					q.push(i);
+					visited[i] = true;
+				}
+			}
+		}
+	}
+};
+class AdjList {
+	SLLnode* head[M];
+	bool* visited;
+	int n, m;
+	int** matrix;
+	linklist* list;
+public:
+	AdjList(int m,int n) {
+		this->m = m;
+		this->n = n;
+		visited = new bool[n];
+		matrix = new int* [m];
+		for (int i = 0; i < m; i++) {
+			matrix[i] = new int[n];
+			visited[i] = false;
+			head[i] = NULL;
+		}
+	}
+	void input_adjmatrix() {
+		for (int i = 0; i < m; i++) {
+			for (int j = 0; j < n; j++) {
+				cin >> matrix[i][j];
+			}
+		}
+	}
+	void input() {
+		int vertical;
+		cout << "Enter vertical: ";
+		cin >> vertical;
+		for (int i = 0; i < m; i++) {
+			cout << "Enter a number of AdjEdge:";
+			int nEdge;
+			cin >> nEdge;
+			for (int j = 0; j < nEdge; j++) {
+				cout << "Enter adjEdge: ";
+				int adjEdge;
+				cin >> adjEdge;
+				list[vertical].insert( adjEdge);
+			}
+			
+		}  
+	}
+	void Adjmatrix_adjList() {
+		for (int i = 0; i < m; i++) {
+			for (int j = 0; j < n; j++) {
+				if (matrix[i][j] == 1) {
+					list[i].insert(j);
+					list[j].insert(i);
+				}
+			}
+		}
+	}
+	/*void display_1item(SLLnode* v) {
+		if (head[v->value].isEmpty()) {
+			cout << "No AdjEdge" << endl;
+			return;
+		}
+		else {
+			SLLnode* run = head[v->value];
+		}
+	}*/
+	void DFS_recursive(int value) {
+		visited[value] = true;
+		cout << value << "\t";
+		SLLnode* run = head[value];
+		while (run != NULL) {
+			if(!visited[run->value])
+				DFS_recursive(run->value);
+			run = run->next;
+		}
+	}
+	void DFS_stack(int value) {
+		stack s;
+		s.push(value);
+		visited[value] = true;
+		cout << value << "\t";
+		while (!s.isEmpty()) {
+			int tmp = s.pop();
+			SLLnode* run = head[tmp];
+			while (run != NULL) {
+				if (!visited[run->value]) {
+					visited[run->value] = true;
+					s.push(run->value);
+					cout << run->value << "\t";
+				}
+			}
+			run = run->next;
+		}
+	}
+	void BFS_queue(int value) {
+		queue q;
+		visited[value] = true;
+		q.push(value);
+		cout << value << "\t";
+		while (!q.isEmpty()) {
+			int tmp = q.pop();
+			cout << tmp << "\t";
+			SLLnode* run = head[value];
+			while (run != NULL) {
+				if (!visited[run->value]) {
+					visited[run->value] = true;
+					q.push(run->value);
+				}
+				run = run->next;
+			}
 		}
 	}
 };
