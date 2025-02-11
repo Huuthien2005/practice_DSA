@@ -174,6 +174,7 @@ public:
 	Adjmatrix(int m, int n) {
 		this->m = m;
 		this->n = n;
+		list = NULL;
 		matrix = new int*[m];
 		visited = new bool[m];
 		for (int i = 0; i < m; i++) {
@@ -302,15 +303,29 @@ public:
 			}
 		}
 	}
-	/*void display_1item(SLLnode* v) {
-		if (head[v->value].isEmpty()) {
-			cout << "No AdjEdge" << endl;
+	void display_1item(SLLnode* run) {
+		if(run!=NULL) {
+			SLLnode* temp=run;
+			while (temp != NULL) {
+				cout << temp->value << "\t";
+			}
+		}
+	}
+	void display_All() {
+		if (head == NULL) {
+			cout << " graph is empty" << endl;
 			return;
 		}
 		else {
-			SLLnode* run = head[v->value];
+			for (int i = 0; i < m; i++) {
+				SLLnode* run = head[i];
+				while (run != NULL) {
+					display_1item(run);
+				}
+			}
 		}
-	}*/
+
+	}
 	void DFS_recursive(int value) {
 		visited[value] = true;
 		cout << value << "\t";
