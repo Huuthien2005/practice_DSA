@@ -257,16 +257,19 @@ class AdjList {
 	int n, m;
 	int** matrix;
 	linklist* list;
+	int* prev;
 public:
 	AdjList(int m,int n) {
 		this->m = m;
 		this->n = n;
 		visited = new bool[n];
 		matrix = new int* [m];
+		prev = new int[n];
 		for (int i = 0; i < m; i++) {
 			matrix[i] = new int[n];
 			visited[i] = false;
 			head[i] = NULL;
+			prev[i] = 0;
 		}
 	}
 	void input_adjmatrix() {
@@ -370,6 +373,32 @@ public:
 				}
 				run = run->next;
 			}
+		}
+	}
+	void find_path_DFS(int value) {
+		visited[value] = true;
+		SLLnode* run = head[value];
+		while (run != NULL) {
+			if (!visited[run->value]) {
+				prev[run->value] = value;
+				find_path_DFS(run->value);
+			}
+			run = run->next;
+		}
+	}
+	void find_path_BFS(int value) {
+		queue q;
+		q.push(value);
+		visited[value] = true;
+		SLLnode* run = head[value];
+		while (run != NULL) {
+			int temp= q.pop();
+			if (!visited[run->value]) {
+				prev[run->value] = temp;
+				visited[run->value] = true;
+				q.push(run->value);
+			}
+			run = run->next;
 		}
 	}
 };
