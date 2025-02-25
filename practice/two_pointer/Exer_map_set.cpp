@@ -260,8 +260,43 @@ void Exer8() {
 		}
 	}
 }
-void Exer9() {
-
+void Exer9_map() {
+	int testcase;
+	cin >> testcase;
+	//cin.ignore();
+	while (testcase--) {
+		string s;
+		getline(cin, s);
+		stringstream ss(s);
+		string word;
+		map<string, int>mp;
+		while (ss >> word) {
+			if (mp.find(word) != mp.end()) {
+				cout << word << "\t" << endl;
+				return;
+			}
+			mp[word]++;
+		}
+	}
+}
+void Exer9_set() {
+	int testcase;
+	cin >> testcase;
+	//cin.ignore();
+	while (testcase--) {
+		string s;
+		getline(cin, s);
+		stringstream ss(s);
+		string word;
+		set<string> se;
+		while (ss >> word) {
+			if (se.find(word) != se.end()) {
+				cout << word << "\t" << endl;
+				return;
+			}
+			se.insert(word);
+		}
+	}
 }
 void Exer10() {
 	int num_user;
@@ -292,7 +327,8 @@ int main() {
 	//Exer7_set();
 	//Exer7_map();
 	//Exer8();
-	Exer10();
+	Exer9_map();
+	//Exer10();
 
 	system("pause");
 	return 0;
