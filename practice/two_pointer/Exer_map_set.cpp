@@ -312,6 +312,66 @@ void Exer10() {
 		mp[word]++;
 	}
 }
+bool isPalindrome(string s) {
+	string s_without_space;
+	for (char c : s) {
+		if (isalpha(tolower(c)))
+			s_without_space += tolower(c);
+	}
+	int left = 0, right = s_without_space.length() - 1;
+	while (left < right) {
+		if (s_without_space[left] != s_without_space[right])
+			return false;
+		left++;
+		right--;
+	}
+	return true;
+}
+void sliding_window_cost() {
+	int* a;
+	int n, k;
+	cin >> n >> k;
+	a = new int[n];
+	for (int i = 0; i < n; i++) {
+		cin >> a[i];
+	}
+	multiset<int> se;
+	for (int i = 0; i < n; i++) {
+
+		se.insert(a[i]);
+		if (se.size() > k) {
+			se.erase(se.find(a[i - k]));
+		}
+		if (se.size() == k) {
+			cout << *se.rbegin() - *se.begin() << "\t";
+		}
+	}
+	cout << endl;
+	delete[] a;
+}
+void slidingWindowMedian() {
+	int* a;
+	int n, k;
+	cin >> n >> k;
+	a = new int[n];
+	for (int i = 0; i < n; i++) {
+		cin >> a[i];
+	}
+	multiset<int> se;
+	for (int i = 0; i < n; i++) {
+		se.insert(a[i]);
+		if (se.size() > k)
+			se.erase(se.find(a[i - k]));
+		if (se.size() == k) {
+			if (k % 2 != 0) {
+				cout << *next(se.begin(), k / 2) << "\t";
+			}
+			else {
+				cout << (*next(se.begin(), k / 2) + *next(se.begin(), k / 2 - 1)) / 2 << "\t";
+			}
+		}
+	}
+}
 
 int main() {
 	//Exer1_map();
@@ -327,8 +387,12 @@ int main() {
 	//Exer7_set();
 	//Exer7_map();
 	//Exer8();
-	Exer9_map();
+	//Exer9_map();
 	//Exer10();
+	if (isPalindrome("OP"))
+		cout << "YES" << endl;
+	else
+		cout << "NO" << endl;
 
 	system("pause");
 	return 0;
